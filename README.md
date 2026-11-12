@@ -38,7 +38,7 @@ Python (pandas, plotly) in Google Colab. I converted ROC years to AD (+1911), pa
 ## Files
 - `Food_Waste_Analysis.ipynb`: the full analysis
 - `report_draft.docx`: the written report
-- `fig1_sankey_2024.png`, `fig2_destinations.png`, `fig3_recovery_rate.png`, `fig4_county_per_capita.png`: figures
+- `newplot.png` (Sankey 2024), `newplot-2.png` (destinations trend), `newplot-3.png` (recovery rate), `newplot-4.png` (county per capita): figures
 - `stat_p_150.csv`, `stat_p_45.csv`, `stat_p_127.csv`, `stat_p_36.csv`, `population_by_county.csv`: data
 
 ## How to run
