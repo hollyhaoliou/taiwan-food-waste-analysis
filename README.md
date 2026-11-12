@@ -36,7 +36,7 @@ Python (pandas, plotly) in Google Colab. I converted ROC years to AD (+1911), pa
 - Baked Tipsy batch figures in the report are my own estimates, not dataset values.
 
 ## Files
-- `food_waste_analysis.ipynb`: the full analysis
+- `Food_Waste_Analysis.ipynb`: the full analysis
 - `report_draft.docx`: the written report
 - `fig1_sankey_2024.png`, `fig2_destinations.png`, `fig3_recovery_rate.png`, `fig4_county_per_capita.png`: figures
 - `stat_p_150.csv`, `stat_p_45.csv`, `stat_p_127.csv`, `population_by_county.csv`: data
