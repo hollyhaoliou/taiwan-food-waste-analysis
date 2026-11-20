@@ -37,7 +37,6 @@ Python (pandas, plotly) in Google Colab. I converted ROC years to AD (+1911), pa
 - Total waste generated jumps between 2017 and 2018. This may reflect a definitional change that I have not verified.
 - The 2019 pig-feed rules are context only. This analysis does not show they caused the decline.
 - Outlying islands such as Lienchiang have high per-person numbers partly because of visitors.
-- Baked Tipsy batch figures in the report are my own estimates, not dataset values.
 
 ## Files
 - `Food_Waste_Analysis.ipynb`: the full analysis
