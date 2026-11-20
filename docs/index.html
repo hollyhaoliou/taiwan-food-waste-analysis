@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where Does Taiwan's Food Waste Go? · Holly Liou</title>
+<meta name="description" content="A data review of the system behind Baked Tipsy, 2015–2024. Taiwan household food waste recovery, MOENV data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1d2326; --ink-2:#4a5257; --ink-3:#6b7378; --rule:#dfe2e0; --rule-2:#eceeec;
+  --paper:#ffffff; --paper-2:#f7f7f4; --accent:#0f5e6e;
+  --c-recy:#5b7896; --c-inc:#9a8f84; --c-npH:#3f3a36; --c-food:#2f7d5b;
+  --c-compost:#2f7d5b; --c-pig:#b5502f; --c-other:#c09124; --c-disp:#b9b2a8; --c-land:#7a6a5d;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --text-w:680px; --margin-w:250px; --gutter:44px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:19px;line-height:1.62;font-optical-sizing:auto;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-thickness:2px}
+::selection{background:#cfe6e2}
+
+/* ---------- Grid ---------- */
+.article{max-width:calc(var(--text-w) + var(--gutter) + var(--margin-w) + 48px);margin:0 auto;padding:0 24px calc(var(--gutter)*0)}
+.l-body{max-width:var(--text-w);position:relative}
+.l-page{width:calc(var(--text-w) + var(--gutter) + var(--margin-w));max-width:100%}
+@media (min-width:1060px){ .article{padding-right:calc(24px)} }
+
+/* ---------- Masthead ---------- */
+.masthead{border-bottom:1px solid var(--rule);background:var(--paper-2)}
+.masthead-inner{padding-top:72px;padding-bottom:40px}
+.kicker{font-family:var(--sans);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 18px}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(36px,5.6vw,58px);line-height:1.06;letter-spacing:-.015em;margin:0 0 16px;max-width:15ch;text-wrap:balance}
+.dek{font-size:clamp(19px,2.2vw,23px);line-height:1.4;color:var(--ink-2);margin:0;max-width:34ch;font-style: normal}
+.byline{display:grid;grid-template-columns:repeat(4,auto);justify-content:start;gap:8px 44px;margin-top:36px;padding-top:18px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:14px;line-height:1.45}
+.byline dt{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-bottom:3px}
+.byline dd{margin:0;color:var(--ink)}
+@media (max-width:640px){.byline{grid-template-columns:1fr 1fr;gap:16px 24px}}
+
+/* ---------- Key takeaways ---------- */
+.takeaways{margin:44px 0 12px;border:1px solid var(--rule);border-top:3px solid var(--accent);background:#fbfbf9;padding:24px 28px 10px}
+.takeaways h2{font-family:var(--sans);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 14px;color:var(--accent);font-weight:600}
+.takeaways ol{list-style:none;margin:0;padding:0;counter-reset:tk;display:grid;grid-template-columns:1fr 1fr;gap:0 36px}
+.takeaways li{counter-increment:tk;position:relative;padding:12px 0 16px 36px;border-top:1px solid var(--rule-2);font-family:var(--sans);font-size:15.5px;line-height:1.5;color:var(--ink-2)}
+.takeaways li::before{content:counter(tk);position:absolute;left:0;top:12px;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent);font-size:12.5px;font-weight:600;display:grid;place-items:center}
+.takeaways li b{display:block;color:var(--ink);font-weight:600;font-size:16.5px;margin-bottom:2px}
+.takeaways .num{font-family:var(--serif);font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+@media (max-width:760px){.takeaways ol{grid-template-columns:1fr}.takeaways{padding:20px 18px 6px}}
+
+/* ---------- Body text ---------- */
+main{padding-top:8px}
+section{margin:0}
+h2.sec{font-family:var(--serif);font-weight:700;font-size:30px;line-height:1.2;letter-spacing:-.01em;margin:72px 0 6px;text-wrap:balance}
+.sec-num{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:72px}
+.sec-num + h2.sec{margin-top:6px}
+h3{font-family:var(--sans);font-size:17px;font-weight:600;margin:32px 0 6px}
+p{margin:0 0 1.05em}
+.lede{font-size:21px;line-height:1.55}
+strong{font-weight:600}
+.q{font-style: normal}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- Sidenotes ---------- */
+body{counter-reset:sn}
+.sn-ref{counter-increment:sn}
+.sn-ref::after{content:counter(sn);font-family:var(--sans);font-size:.62em;font-weight:600;vertical-align:super;line-height:0;color:var(--accent);margin-left:1px}
+.sidenote{font-family:var(--sans);font-size:13.5px;line-height:1.5;color:var(--ink-2);display:block}
+.sidenote::before{content:counter(sn) " ";font-weight:600;color:var(--accent)}
+.sidenote .tag{display:inline-block;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;color:#8a4a12;background:#fbf0e2;border-radius:3px;padding:1px 5px;margin-right:4px;vertical-align:1px}
+.marginnote{font-family:var(--sans);font-size:13.5px;line-height:1.5;color:var(--ink-2);display:block}
+@media (min-width:1060px){
+  .sidenote,.marginnote{float:right;clear:right;width:var(--margin-w);margin-right:calc(-1 * (var(--margin-w) + var(--gutter)));margin-top:.25em;margin-bottom:1em;position:relative}
+}
+@media (max-width:1059.98px){
+  .sidenote,.marginnote{margin:10px 0 14px;padding:8px 0 8px 14px;border-left:2px solid var(--rule)}
+}
+
+/* ---------- Figures ---------- */
+figure{margin:36px 0 40px;clear:both}
+.fig-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 20px;margin-bottom:10px}
+.fig-title{font-family:var(--sans);font-size:17px;font-weight:600;line-height:1.35;margin:0;color:var(--ink);max-width:56ch}
+.fig-sub{font-family:var(--sans);font-size:14px;color:var(--ink-3);margin:2px 0 0;line-height:1.45}
+.fig-label{font-family:var(--sans);font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:6px}
+.chart{position:relative;width:100%}
+.chart svg{display:block;overflow:visible}
+.scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.scroll-hint{display:none;font-family:var(--sans);font-size:12px;color:var(--ink-3);margin-top:4px}
+@media (max-width:660px){.scroll-hint{display:block}}
+figcaption{font-family:var(--sans);font-size:13.5px;line-height:1.5;color:var(--ink-3);margin-top:12px;padding-top:10px;border-top:1px solid var(--rule-2);max-width:var(--text-w)}
+figcaption b{color:var(--ink-2);font-weight:600}
+.src{font-family:var(--sans);font-size:12px;color:var(--ink-3);margin-top:6px}
+.two-up{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+@media (max-width:760px){.two-up{grid-template-columns:1fr;gap:28px}}
+
+svg text{font-family:var(--sans);fill:var(--ink-2)}
+.axis text{font-size:12px;fill:var(--ink-3);font-variant-numeric:tabular-nums}
+.axis line,.axis path{stroke:var(--rule)}
+.grid line{stroke:var(--rule-2)}
+.zero{stroke:#b9bdbb}
+.dlabel{font-size:13px;font-weight:600}
+.dval{font-size:12px;font-variant-numeric:tabular-nums}
+.anno{font-size:12px;fill:var(--ink-2)}
+.anno-strong{font-size:12px;font-weight:600;fill:var(--ink)}
+.halo{paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+
+/* Controls */
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;font-family:var(--sans);font-size:13.5px;margin:4px 0 14px}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:13px;font-variant-numeric:tabular-nums;border:0;background:#fff;color:var(--ink-2);padding:6px 9px;cursor:pointer;border-right:1px solid var(--rule-2)}
+.seg button:last-child{border-right:0}
+.seg button:hover{background:var(--paper-2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button:focus-visible,.toggle input:focus-visible,.copy:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.toggle{display:inline-flex;align-items:center;gap:7px;color:var(--ink-2);cursor:pointer}
+.toggle input{accent-color:var(--ink);width:15px;height:15px;margin:0}
+
+/* Tooltip */
+.tip{position:fixed;z-index:30;pointer-events:none;background:#fff;border:1px solid #cfd3d1;border-radius:6px;box-shadow:0 6px 24px rgba(20,30,30,.12);padding:9px 11px;font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--ink);min-width:150px;max-width:260px;opacity:0;transform:translateY(4px);transition:opacity .12s, transform .12s}
+.tip.on{opacity:1;transform:none}
+.tip h4{margin:0 0 4px;font-size:13px;font-weight:600}
+.tip table{border-collapse:collapse;width:100%}
+.tip td{padding:1px 0;font-variant-numeric:tabular-nums}
+.tip td:last-child{text-align:right;padding-left:14px}
+.tip .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:0}
+.tip .muted{color:var(--ink-3);font-size:12px;margin-top:4px}
+
+/* Bars (county) */
+.bar{transition:width .45s cubic-bezier(.2,.7,.2,1)}
+.row{transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.row:hover .bar-bg{fill:var(--paper-2)}
+
+/* Blockquote */
+blockquote{margin:28px 0;padding:4px 0 4px 22px;border-left:3px solid var(--c-pig);font-size:20px;line-height:1.55;color:var(--ink)}
+blockquote p{margin:0 0 .8em}
+blockquote footer{font-family:var(--sans);font-size:13.5px;color:var(--ink-3);font-style:normal}
+.conclusion{font-family:var(--serif);font-size:23px;line-height:1.45;font-weight:600;margin:30px 0;padding:22px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+
+/* ---------- Appendix ---------- */
+.appendix{margin-top:80px;background:var(--paper-2);border-top:1px solid var(--rule);padding:44px 0 70px;font-family:var(--sans);font-size:14.5px;line-height:1.6;color:var(--ink-2)}
+.appendix .grid2{display:grid;grid-template-columns:180px minmax(0,1fr);gap:0 var(--gutter)}
+.appendix .grid2 > h3{margin:0;padding:26px 0 0;font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:600;border-top:1px solid var(--rule)}
+.appendix .grid2 > div{padding:24px 0 22px;border-top:1px solid var(--rule);max-width:var(--text-w)}
+.appendix ul{margin:0;padding-left:18px}
+.appendix li{margin:0 0 6px}
+.appendix p{margin:0 0 .7em}
+@media (max-width:700px){.appendix .grid2{grid-template-columns:1fr}.appendix .grid2 > div{border-top:0;padding-top:6px}}
+.cite{position:relative;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:14px 16px;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--ink);white-space:pre-wrap;word-break:break-word;margin:6px 0 14px}
+.copy{position:absolute;top:8px;right:8px;font-family:var(--sans);font-size:12px;border:1px solid var(--rule);background:var(--paper-2);border-radius:4px;padding:3px 9px;cursor:pointer;color:var(--ink-2)}
+.copy:hover{background:#fff}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:500;color:var(--ink);border:1px solid #c9cdcb;background:#fff;padding:8px 14px;border-radius:6px}
+.btn:hover{border-color:var(--ink)}
+
+.drafts{position:fixed;left:14px;bottom:14px;z-index:40;font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--ink-2);background:rgba(255,255,255,.94);border:1px solid var(--rule);border-radius:999px;padding:6px 12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.drafts:hover{color:var(--ink);border-color:var(--ink-3)}
+
+.toc{font-family:var(--sans);font-size:13px;line-height:1.5}
+.toc b{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;font-weight:600}
+.toc ol{margin:0;padding-left:18px;color:var(--ink-3)}
+.toc a{color:var(--ink-2);text-decoration:none}
+.toc a:hover{color:var(--accent);text-decoration:underline}
+
+@media (max-width:520px){
+  body{font-size:17.5px}
+  .article{padding:0 18px}
+  .masthead-inner{padding-top:52px}
+  h2.sec{font-size:25px}
+  .lede{font-size:19px}
+  blockquote{font-size:18px}
+  .conclusion{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important}
+}
+</style>
+<style id="no-italics">em,i,cite,dfn,var,address,q,blockquote,figcaption{font-style:normal!important}em{font-weight:600}[style*="italic"]{font-style:normal!important}svg text{font-style:normal!important}</style>
+</head>
+<body>
+<a class="drafts" href="./index.html">← all drafts</a>
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<header class="masthead">
+  <div class="article masthead-inner">
+    <p class="kicker">Data review · Taiwan · Household waste</p>
+    <h1>Where Does Taiwan's Food Waste Go?</h1>
+    <p class="dek">A data review of the system behind Baked Tipsy, 2015–2024</p>
+    <dl class="byline">
+      <div><dt>Author</dt><dd>Holly Liou</dd></div>
+      <div><dt>Coverage</dt><dd>2015–2024, national &amp; 22 counties</dd></div>
+      <div><dt>Data</dt><dd>MOENV · Ministry of the Interior</dd></div>
+      <div><dt>Reproduce</dt><dd><a href="https://github.com/hollyhaoliou/taiwan-food-waste-analysis">GitHub</a> · <a href="https://colab.research.google.com/github/hollyhaoliou/taiwan-food-waste-analysis/blob/main/Food_Waste_Analysis.ipynb">Colab notebook</a></dd></div>
+    </dl>
+  </div>
+</header>
+
+<div class="article">
+  <aside class="takeaways l-page" aria-labelledby="tk-h">
+    <h2 id="tk-h">Key takeaways</h2>
+    <ol>
+      <li><b>Food is a sliver of the 2024 stream.</b>Of <span class="num">12,351,875 t</span> of general waste generated, only <span class="num">505,302 t</span> (<span class="num">4.09%</span>) was recovered as food waste. Recyclables (57.44%) and incineration (33.30%) dominate.</li>
+      <li><b>The pig-feed outlet collapsed and was not replaced.</b>Pig feed fell <span class="num">41.78%</span> from 2015 to 2019 (−170,675 t). Compost grew only +49,260 t over the same years.</li>
+      <li><b>The recovery rate roughly halved.</b>From <span class="num">8.37%</span> in 2015 to <span class="num">4.09%</span> in 2024, while total waste generated rose 69.6% and food recovery fell 17.12%.</li>
+      <li><b>Counties differ widely.</b>Food waste recovered per registered resident in 2024 ranged from <span class="num">57.0 kg</span> (Lienchiang/Matsu) to <span class="num">8.9 kg</span> (Keelung), about 6.4×. On the main island: Tainan 31.9 kg vs Keelung, about 3.6×.</li>
+    </ol>
+  </aside>
+
+  <main>
+    <section class="l-body" id="intro">
+      <span class="marginnote toc" aria-label="Contents"><b>Contents</b><ol>
+        <li><a href="#question">The question</a></li>
+        <li><a href="#flow">Where the waste went, 2024</a></li>
+        <li><a href="#pigfeed">The pig-feed collapse</a></li>
+        <li><a href="#rate">A halved recovery rate</a></li>
+        <li><a href="#counties">County differences</a></li>
+        <li><a href="#reflection">What it means for small ventures</a></li>
+        <li><a href="#appendix">Limitations, sources, citation</a></li>
+      </ol></span>
+      <p class="lede">From 2021 to 2025, Baked Tipsy brewed beer from surplus bread. It was a food upcycling venture with a clear story: food that would have been thrown away became something people wanted to buy. This review steps back from the product and looks at the system it sat inside, Taiwan's municipal waste stream, to ask how much food waste is actually recovered, and where the rest goes.</p>
+    </section>
+
+    <section class="l-body" id="question">
+      <span class="sec-num">1</span>
+      <h2 class="sec">The question</h2>
+      <p><strong>How has Taiwan's household food waste recovery changed from 2015 to 2024, and what does that mean for small upcycling ventures?</strong></p>
+      <p>Three hypotheses guided the analysis:</p>
+      <p>(1) Recovery is shrinking as a share of total waste. (2) The lost pig-feed outlet was not replaced by other recovery routes. (3) Recovery varies widely between counties.</p>
+      <p>The data come from the Ministry of Environment (MOENV) national waste account and its annual county tables, merged with year-end household registration figures.<span class="sn-ref"></span><span class="sidenote"><span class="tag">Scope</span>Household/municipal stream only. Business and industrial food waste, and pre-consumer loss such as bakery surplus (the very input Baked Tipsy used), are not in these tables.</span> Each finding below covers one of those angles.</p>
+    </section>
+
+    <section id="flow">
+      <div class="l-body">
+        <span class="sec-num">Finding 1</span>
+        <h2 class="sec">In 2024, about one tonne in twenty-five was recovered as food</h2>
+        <p>Taiwan generated 12,351,875 tonnes of general waste in 2024. More than half, 7,094,531 t (57.44%), was recycled, and a third, 4,112,991 t (33.30%), was incinerated. Food waste recovered came to 505,302 t, or <strong>4.09%</strong> of everything generated.<span class="sn-ref"></span><span class="sidenote"><span class="tag">Definition</span>"Recovery rate" here is food recovered ÷ <em>all</em> general waste generated. It is not the share of food waste that was recovered: the tables do not report how much food waste existed in total.</span></p>
+        <p>That recovered food went three ways: compost (231,369 t), pig feed (216,361 t) and other uses (57,572 t). The remaining flows are small but not trivial: 514,126 t is recorded as not properly handled, roughly the same size as all food recovery combined.</p>
+      </div>
+      <figure class="l-page">
+        <div class="fig-label">Figure 1</div>
+        <div class="fig-head"><div><p class="fig-title">Where Taiwan's general waste went, 2024</p><p class="fig-sub">Tonnes. Band widths are to scale. Hover a band for values.</p></div></div>
+        <div class="chart scroll-x" id="sankey" aria-label="Flow diagram of 2024 general waste by destination" role="img"></div>
+        <div class="scroll-hint">Scroll sideways to see the full diagram →</div>
+        <figcaption><b>Food recovered (green) is the thin band at the bottom.</b> Its three destinations are drawn at the same scale as everything else, which is why they almost disappear.<div class="src">Source: MOENV STAT_P_150 national waste account.</div></figcaption>
+      </figure>
+    </section>
+
+    <section id="pigfeed">
+      <div class="l-body">
+        <span class="sec-num">Finding 2</span>
+        <h2 class="sec">Pig feed collapsed, and nothing replaced it</h2>
+        <p>In 2015, most recovered food waste went to pigs: 408,524 t. By 2019 that had fallen to 237,849 t, down <strong>41.78%</strong> (−170,675 t). Over the same four years compost grew by only 49,260 t and other uses by 9,752 t. Compost overtook pig feed in 2019, but total food recovery still fell, from 609,706 t to 498,045 t.</p>
+        <p>The timing lines up with an official notice issued during the African swine fever (ASF) response: food-waste-feeding pig farms that did not meet the rules were told to switch to conventional feed or leave production by March 31, 2019.<span class="sn-ref"></span><span class="sidenote"><span class="tag">Context, not cause</span>Regulated feeding continued; this was not a universal ban. The notice is context for the drop, and this analysis does not prove it caused it. <a href="https://enews.moenv.gov.tw/moenv-news/zh-tw/News/13385">MOENV notice</a>.</span> After 2019, "other uses" is the one route that kept growing, from 4,076 t in 2015 to 57,572 t in 2024, but it remains small next to the pig-feed volume that was lost.</p>
+      </div>
+      <figure class="l-page">
+        <div class="fig-label">Figure 2</div>
+        <div class="fig-head"><div><p class="fig-title">Recovered food waste by destination, 2015–2024</p><p class="fig-sub">Tonnes per year. Hover for each year's values.</p></div></div>
+        <div class="chart" id="dest"></div>
+        <figcaption><b>Pig feed fell 41.78% between 2015 and 2019.</b> Compost overtook it in 2019 but grew too little to make up the difference; the dashed line is total food recovered.<div class="src">Source: MOENV STAT_P_150.</div></figcaption>
+      </figure>
+    </section>
+
+    <section id="rate">
+      <div class="l-body">
+        <span class="sec-num">Finding 3</span>
+        <h2 class="sec">The recovery rate roughly halved</h2>
+        <p>Food recovered as a share of all general waste fell from <strong>8.37%</strong> in 2015 to <strong>4.09%</strong> in 2024. The decline has two causes working together: total waste generated rose 69.6%, while food recovery fell 17.12%.</p>
+        <p>The fall was not continuous. The low point was 2023 at 3.94%, with a small rise to 4.09% in 2024. A large part of the drop also sits in a single year: total waste generated jumped 25.25% between 2017 and 2018.<span class="sn-ref"></span><span class="sidenote"><span class="tag">Caveat</span>The 2017→2018 jump may reflect a change in how waste was defined or counted, not real growth. It has not been verified. For a cleaner comparison, use the post-2019 numbers: 4.92% (2019) → 4.09% (2024).</span> Looking only from 2019, the rate still slid from 4.92% to 4.09%.</p>
+      </div>
+      <figure class="l-page">
+        <div class="fig-label">Figure 3</div>
+        <div class="two-up">
+          <div>
+            <p class="fig-title">Food recovery rate</p>
+            <p class="fig-sub">Food recovered ÷ all general waste generated, %</p>
+            <div class="chart" id="rateChart"></div>
+          </div>
+          <div>
+            <p class="fig-title">Waste grew; food recovery shrank</p>
+            <p class="fig-sub">Index, 2015 = 100</p>
+            <div class="chart" id="indexChart"></div>
+          </div>
+        </div>
+        <figcaption><b>The shaded band marks 2017→2018,</b> when total waste generated rose 25.25%, possibly because of a definitional change. Both panels share it.<div class="src">Source: MOENV STAT_P_150. Index computed from published tonnages.</div></figcaption>
+      </figure>
+    </section>
+
+    <section id="counties">
+      <div class="l-body">
+        <span class="sec-num">Finding 4</span>
+        <h2 class="sec">Where you live changes how much is recovered</h2>
+        <p>Dividing each county's recovered food waste by its registered population gives a rough measure of how much each local system captures. In 2024, Lienchiang (Matsu) recorded the most at 57.0 kg per person and Keelung the least at 8.9 kg, a gap of about 6.4×.</p>
+        <p>The outlying islands need care.<span class="sn-ref"></span><span class="sidenote"><span class="tag">Denominator</span>Penghu, Kinmen and Lienchiang host many visitors whose waste is counted but who are not registered residents, which inflates per-person figures. Lienchiang's small population also makes its number volatile from year to year.</span> On the main island alone, Tainan leads at 31.9 kg against Keelung's 8.9 kg, still about 3.6×. Use the year buttons to see how the ranking moved over the decade, or hide the islands to compare main-island counties directly.</p>
+      </div>
+      <figure class="l-page">
+        <div class="fig-label">Figure 4</div>
+        <div class="fig-head"><div><p class="fig-title">Food waste recovered per registered resident, by county</p><p class="fig-sub">kg per person per year. Hover a row for tonnes and population.</p></div></div>
+        <div class="controls">
+          <div class="seg" id="yearSeg" role="group" aria-label="Year"></div>
+          <label class="toggle"><input type="checkbox" id="islandsToggle" checked> Include outlying islands</label>
+        </div>
+        <div class="chart" id="county"></div>
+        <p class="fig-sub" id="countyRatio" aria-live="polite" style="margin-top:8px"></p>
+        <figcaption><b>Outlying islands are drawn in a lighter tone</b> because visitor waste inflates their per-person figures. County sums can differ from national totals by 1–6 t; values are kept as published.<div class="src">Sources: MOENV STAT_P_45 (county waste), Ministry of the Interior household registration (year-end population). kg per person = tonnes × 1000 ÷ population.</div></figcaption>
+      </figure>
+    </section>
+
+    <section class="l-body" id="reflection">
+      <span class="sec-num">5</span>
+      <h2 class="sec">What it means for small ventures</h2>
+      <p>All three hypotheses hold up, with caveats. Recovery shrank as a share of total waste. The pig-feed outlet that shrank after 2019 was not replaced at the same scale by compost or other uses. And recovery per person varies several-fold between counties.</p>
+      <p>For an upcycling venture, those numbers set the scale of the problem. Baked Tipsy's inputs were measured in kilograms per batch.<span class="sn-ref"></span><span class="sidenote"><span class="tag">Estimate</span>Batch figures (4-tonne batches, 10–20 kg of surplus bread each) are the author's own estimates from running the business, not part of the MOENV data.</span> The household stream alone, which does not even include bakery surplus, recovered 505,302 tonnes of food in 2024, and recorded 514,126 tonnes as not properly handled.</p>
+      <blockquote>
+        <p>Baked Tipsy succeeded as an act of advocacy. Years later, people still tell me the brand changed how they think about food waste, and the business earned revenue. I always knew our environmental impact was limited by scale. Each 4-tonne batch of beer used only 10–20 kg of surplus bread. But I did not understand how limited it was until I saw the system it sat within.</p>
+        <p>Against numbers like these, one product cannot move the system, however good its story. The levers are collection systems, treatment capacity, and policy. That is why I am learning to work with data, and why I want to move beyond advocacy and education toward work on industry-scale systems.</p>
+        <footer>Holly Liou, founder of Baked Tipsy (2021–2025)</footer>
+      </blockquote>
+      <p class="conclusion">Single-product upcycling like Baked Tipsy can prove that an idea works, but it can't close system-level gaps of this size.</p>
+    </section>
+  </main>
+</div>
+
+<section class="appendix" id="appendix">
+  <div class="article">
+    <div class="grid2 l-page">
+      <h3>Limitations</h3>
+      <div>
+        <ul>
+          <li><strong>Household/municipal stream only.</strong> No business or industrial food waste, and no pre-consumer loss such as bakery surplus.</li>
+          <li><strong>No emissions estimated.</strong> The analysis tracks tonnes, not climate impact.</li>
+          <li><strong>The 2018 jump is unverified.</strong> Total waste generated rose 25.25% from 2017 to 2018, possibly a definitional change. Post-2019 comparisons (4.92% → 4.09%) avoid it.</li>
+          <li><strong>ASF rules are context, not cause.</strong> The March 31, 2019 notice coincides with the pig-feed drop; causation is not tested. Regulated feeding continued.</li>
+          <li><strong>Island per-person figures are inflated by visitors.</strong> The denominator is registered population, not people actually present.</li>
+          <li><strong>Small discrepancies retained.</strong> National totals and county sums differ by 1–6 t in some years; both are kept as published.</li>
+          <li><strong>"Recovery rate" is food recovered ÷ all general waste,</strong> not the share of food waste that was recovered.</li>
+        </ul>
+      </div>
+
+      <h3>Methods</h3>
+      <div>
+        <p>Python (pandas, plotly) in Google Colab. ROC calendar years converted with +1911. County waste merged with year-end registered population; kg per person = tonnes × 1000 ÷ population.</p>
+        <div class="btns">
+          <a class="btn" href="https://github.com/hollyhaoliou/taiwan-food-waste-analysis">GitHub repository</a>
+          <a class="btn" href="https://colab.research.google.com/github/hollyhaoliou/taiwan-food-waste-analysis/blob/main/Food_Waste_Analysis.ipynb">Open the notebook in Colab</a>
+        </div>
+      </div>
+
+      <h3>Data sources</h3>
+      <div>
+        <ul>
+          <li>MOENV STAT_P_150, national waste account: <a href="https://data.moenv.gov.tw/dataset/detail/STAT_P_150">data.moenv.gov.tw/dataset/detail/STAT_P_150</a></li>
+          <li>MOENV STAT_P_45, annual waste by county: <a href="https://data.moenv.gov.tw/dataset/detail/STAT_P_45">data.moenv.gov.tw/dataset/detail/STAT_P_45</a></li>
+          <li>MOENV STAT_P_127, monthly waste by county: <a href="https://data.moenv.gov.tw/dataset/detail/STAT_P_127">data.moenv.gov.tw/dataset/detail/STAT_P_127</a></li>
+          <li>Ministry of the Interior, household registration year-end population: <a href="https://www.ris.gov.tw/info-popudata/app/awFastDownload/toMain_panel">ris.gov.tw</a></li>
+          <li>MOENV notice on food-waste pig feeding (ASF): <a href="https://enews.moenv.gov.tw/moenv-news/zh-tw/News/13385">enews.moenv.gov.tw/moenv-news/zh-tw/News/13385</a></li>
+        </ul>
+      </div>
+
+      <h3>Cite this</h3>
+      <div>
+        <p>For attribution, please cite this work as</p>
+        <div class="cite" id="citeText">Liou, Holly. "Where Does Taiwan's Food Waste Go? A data review of the system behind Baked Tipsy, 2015–2024." https://github.com/hollyhaoliou/taiwan-food-waste-analysis<button class="copy" data-target="citeText" type="button">Copy</button></div>
+        <p>BibTeX citation</p>
+        <div class="cite" id="citeBib">@misc{liou_taiwan_food_waste,
+  author = {Liou, Holly},
+  title  = {Where Does Taiwan's Food Waste Go? A data review of the system behind Baked Tipsy, 2015--2024},
+  howpublished = {\url{https://github.com/hollyhaoliou/taiwan-food-waste-analysis}},
+  note   = {Data: MOENV STAT\_P\_150, STAT\_P\_45, STAT\_P\_127; Ministry of the Interior household registration}
+}<button class="copy" data-target="citeBib" type="button">Copy</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+const NATIONAL = [{"year":2015,"generated":7282863,"incineration":3143054,"landfill":91655,"recyclables":3436768,"food_recovered":609706,"compost":197107,"pig_feed":408524,"other_food_use":4076,"other_disposal":0,"not_properly_handled":1679,"recovery_rate_pct":8.37},{"year":2016,"generated":7411184,"incineration":2993435,"landfill":77940,"recyclables":3701670,"food_recovered":575932,"compost":197307,"pig_feed":372280,"other_food_use":6346,"other_disposal":0,"not_properly_handled":62206,"recovery_rate_pct":7.77},{"year":2017,"generated":7851606,"incineration":2969654,"landfill":70382,"recyclables":4169539,"food_recovered":551332,"compost":204598,"pig_feed":343906,"other_food_use":2828,"other_disposal":0,"not_properly_handled":90699,"recovery_rate_pct":7.02},{"year":2018,"generated":9834046,"incineration":4001745,"landfill":77853,"recyclables":4921715,"food_recovered":594992,"compost":231676,"pig_feed":358229,"other_food_use":5087,"other_disposal":0,"not_properly_handled":237741,"recovery_rate_pct":6.05},{"year":2019,"generated":10123698,"incineration":3943055,"landfill":79931,"recyclables":5334797,"food_recovered":498045,"compost":246367,"pig_feed":237849,"other_food_use":13828,"other_disposal":0,"not_properly_handled":267871,"recovery_rate_pct":4.92},{"year":2020,"generated":10247586,"incineration":3657973,"landfill":93956,"recyclables":5655991,"food_recovered":529567,"compost":261480,"pig_feed":243795,"other_food_use":24292,"other_disposal":0,"not_properly_handled":310100,"recovery_rate_pct":5.17},{"year":2021,"generated":10430497,"incineration":3358059,"landfill":106678,"recyclables":6048304,"food_recovered":482105,"compost":263829,"pig_feed":185619,"other_food_use":32657,"other_disposal":0,"not_properly_handled":435351,"recovery_rate_pct":4.62},{"year":2022,"generated":11858326,"incineration":4182924,"landfill":67502,"recyclables":6570024,"food_recovered":488747,"compost":246679,"pig_feed":198159,"other_food_use":43909,"other_disposal":683,"not_properly_handled":548446,"recovery_rate_pct":4.12},{"year":2023,"generated":12148718,"incineration":4218581,"landfill":63503,"recyclables":6842897,"food_recovered":478565,"compost":232808,"pig_feed":197498,"other_food_use":48259,"other_disposal":34079,"not_properly_handled":511092,"recovery_rate_pct":3.94},{"year":2024,"generated":12351875,"incineration":4112991,"landfill":57067,"recyclables":7094531,"food_recovered":505302,"compost":231369,"pig_feed":216361,"other_food_use":57572,"other_disposal":67859,"not_properly_handled":514126,"recovery_rate_pct":4.09}];
+const COUNTY_YEARS = [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+const COUNTIES = [{"en":"Penghu","zh":"澎湖縣","kg":[39.7,38.9,41.9,38.7,41.2,43.8,40.3,44.1,42.2,38.6],"t":[4066,4018,4365,4037,4335,4637,4288,4728,4547,4163],"pop":[102304,103263,104073,104440,105207,105952,106340,107223,107739,107901]},{"en":"Tainan","zh":"臺南市","kg":[36.8,38.4,38.9,41,33.7,32.8,31.1,31.3,30.1,31.9],"t":[69418,72434,73372,77314,63345,61417,57851,57937,55942,59375],"pop":[1885541,1886033,1886522,1883831,1880906,1874917,1862059,1852997,1859946,1858651]},{"en":"Taitung","zh":"臺東縣","kg":[27.1,31.3,35.3,37.6,23.9,23.6,24.5,21.7,22.4,23.4],"t":[6019,6911,7752,8236,5173,5072,5228,4602,4745,4913],"pop":[222452,220802,219540,218919,216781,215261,213386,212551,211544,210219]},{"en":"Taipei","zh":"臺北市","kg":[27.6,25.3,24.9,25.8,23.4,23.5,22.8,20.7,19,18.1],"t":[74622,68213,66764,68839,61849,61028,57537,51415,47745,45080],"pop":[2704810,2695704,2683257,2668572,2645041,2602418,2524393,2480681,2511886,2490869]},{"en":"Taichung","zh":"臺中市","kg":[15.2,15.5,15.5,15.5,14.6,24.3,21.2,21.7,19.4,21.8],"t":[41815,42979,43308,43436,41147,68630,59688,61200,55132,62366],"pop":[2744445,2767239,2787070,2803894,2815261,2820787,2813490,2814459,2845909,2860601]},{"en":"Changhua","zh":"彰化縣","kg":[9.2,10.8,12.3,13.5,12,13.1,13.1,12.2,10.6,14.7],"t":[11871,13961,15729,17229,15237,16586,16483,15158,13160,17962],"pop":[1289072,1287146,1282458,1277824,1272802,1266670,1255330,1245239,1239048,1225675]},{"en":"Chiayi County","zh":"嘉義縣","kg":[21.3,25,26.3,30.9,22.2,25.2,26.6,27.2,27.3,26.3],"t":[11091,12905,13435,15644,11186,12594,13104,13278,13216,12608],"pop":[519839,515320,511182,507068,503113,499481,493316,488158,484560,478786]},{"en":"Chiayi City","zh":"嘉義市","kg":[33.8,30.4,24.8,36.6,16.6,25.1,22.4,28.2,29.6,28.2],"t":[9125,8216,6683,9827,4435,6676,5919,7417,7791,7387],"pop":[270366,269874,269398,268622,267690,266005,264727,262924,263584,262177]},{"en":"Hsinchu County","zh":"新竹縣","kg":[27.5,18,14.1,13.2,14.4,15.9,14.8,11.9,11.5,12.2],"t":[14889,9869,7797,7338,8115,9098,8517,6932,6748,7236],"pop":[542042,547481,552169,557010,563933,570775,575580,580503,589289,594641]},{"en":"Hsinchu City","zh":"新竹市","kg":[26.2,28,32.5,32.9,22.9,27.3,18.2,11.8,13.3,12.8],"t":[11389,12267,14331,14680,10263,12313,8251,5336,6088,5852],"pop":[434060,437337,441132,445635,448803,451412,452640,452473,456475,457242]},{"en":"New Taipei","zh":"新北市","kg":[31.6,30.7,28.5,31.8,30.9,31.5,29.5,27.4,25.9,25.7],"t":[125339,122269,113473,126983,124178,127122,118327,109351,104493,104103],"pop":[3970644,3979208,3986689,3995717,4018696,4030954,4008113,3995551,4041120,4047001]},{"en":"Yunlin","zh":"雲林縣","kg":[15.6,18.2,24.1,25.2,21.4,19.5,18.1,16.2,14.9,14],"t":[10886,12675,16621,17259,14573,13207,12156,10777,9806,9196],"pop":[699633,694873,690373,686022,681306,676873,670132,664092,659468,658427]},{"en":"Lienchiang (Matsu)","zh":"連江縣","kg":[143.1,93.9,101.9,127.5,229.1,248.2,156.6,108.1,74,57],"t":[1795,1183,1312,1664,2999,3296,2137,1512,1039,795],"pop":[12547,12595,12880,13056,13089,13279,13645,13983,14039,13950]},{"en":"Keelung","zh":"基隆市","kg":[36.1,31.9,31.6,31.8,20.9,17.9,15.4,11.1,9.4,8.9],"t":[13419,11871,11748,11754,7709,6581,5620,4021,3405,3231],"pop":[372105,372100,371458,370155,368893,367577,363977,361526,362255,361441]},{"en":"Kaohsiung","zh":"高雄市","kg":[31.9,32.2,29.4,29.1,10.9,11.3,10.5,15.4,21.4,25.6],"t":[88745,89536,81510,80731,30319,31184,28734,41955,58573,69943],"pop":[2778918,2779371,2776912,2773533,2773198,2765932,2744691,2728137,2737941,2731412]},{"en":"Taoyuan","zh":"桃園市","kg":[14.3,12.1,10.3,14.4,15.3,14.9,14.1,20,18,19.5],"t":[30091,25915,22460,31977,34308,33703,32050,45669,41790,45552],"pop":[2105780,2147763,2188017,2220872,2249037,2268807,2272391,2281464,2317445,2338648]},{"en":"Miaoli","zh":"苗栗縣","kg":[24.4,22.3,22.5,25.9,28.7,29.9,29,27.5,26.3,26.5],"t":[13783,12467,12466,14214,15649,16225,15620,14722,14086,14103],"pop":[563912,559189,553807,548863,545459,542590,538178,535132,534575,532854]},{"en":"Pingtung","zh":"屏東縣","kg":[14.1,13.5,13.5,14.7,14.8,13.6,10.3,10.7,10.5,11.4],"t":[11847,11262,11202,12169,12148,11078,8246,8567,8308,9033],"pop":[841253,835792,829939,825406,819184,812658,804440,798703,794997,789239]},{"en":"Nantou","zh":"南投縣","kg":[38.1,30.1,20.3,17.7,15.8,15.1,13.7,12.7,11.8,12],"t":[19435,15196,10165,8781,7827,7436,6634,6070,5651,5666],"pop":[509490,505163,501051,497031,494112,490832,484897,479595,477094,472299]},{"en":"Kinmen","zh":"金門縣","kg":[12.4,15.8,22.9,41.7,41,37.7,33.7,32.9,30.6,31.1],"t":[1645,2135,3146,5805,5741,5296,4771,4652,4406,4469],"pop":[132799,135114,137456,139273,140185,140597,141539,141295,144149,143601]},{"en":"Hualien","zh":"花蓮縣","kg":[21,16.6,18,15.5,19.6,20.2,20.2,17,18,17.6],"t":[6977,5489,5924,5090,6409,6564,6479,5429,5712,5565],"pop":[331945,330911,329237,327968,326247,324372,321358,318892,317489,315374]},{"en":"Yilan","zh":"宜蘭縣","kg":[68.6,31,17,26.3,24.4,21.7,20.9,18.1,14.2,14.9],"t":[31439,14162,7770,11986,11100,9824,9401,8148,6394,6710],"pop":[458117,457538,456607,455221,454178,453087,450692,449062,449890,449212]}];
+</script>
+<script>
+(function(){
+"use strict";
+var NS = "http://www.w3.org/2000/svg";
+var fmt = function(n){ return Math.round(n).toLocaleString("en-US"); };
+var fmtK = function(n){ return n >= 1e6 ? (n/1e6).toFixed(n%1e6===0?0:1)+"M" : n >= 1e3 ? Math.round(n/1e3)+"k" : String(n); };
+var css = getComputedStyle(document.documentElement);
+var C = function(name){ return css.getPropertyValue(name).trim(); };
+var COL = { recy:C("--c-recy"), inc:C("--c-inc"), npH:C("--c-npH"), food:C("--c-food"), compost:C("--c-compost"), pig:C("--c-pig"), other:C("--c-other"), disp:C("--c-disp"), land:C("--c-land"), ink:C("--ink"), ink3:C("--ink-3") };
+var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function el(tag, attrs, parent){
+  var n = document.createElementNS(NS, tag);
+  if (attrs) for (var k in attrs) if (attrs[k] != null) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+function txt(parent, x, y, s, attrs){ var t = el("text", Object.assign({x:x, y:y}, attrs||{}), parent); t.textContent = s; return t; }
+function scale(d0, d1, r0, r1){ var f = function(v){ return r0 + (v - d0) / (d1 - d0) * (r1 - r0); }; f.domain=[d0,d1]; return f; }
+function niceTicks(max, count){
+  var raw = max / count, mag = Math.pow(10, Math.floor(Math.log10(raw))), r = raw / mag;
+  var step = (r <= 1 ? 1 : r <= 2 ? 2 : r <= 2.5 ? 2.5 : r <= 5 ? 5 : 10) * mag;
+  var out = []; for (var v = 0; v <= max + 1e-9; v += step) out.push(+v.toFixed(6));
+  if (out[out.length-1] < max) out.push(+(out[out.length-1]+step).toFixed(6));
+  return out;
+}
+
+/* ---------- Tooltip ---------- */
+var tip = document.getElementById("tip");
+function showTip(html, evt){
+  tip.innerHTML = html; tip.classList.add("on");
+  moveTip(evt);
+}
+function moveTip(evt){
+  var x = evt.clientX, y = evt.clientY;
+  var w = tip.offsetWidth, h = tip.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
+  var left = x + 16; if (left + w > vw - 8) left = x - w - 16; if (left < 8) left = 8;
+  var top = y + 14; if (top + h > vh - 8) top = y - h - 14; if (top < 8) top = 8;
+  tip.style.left = left + "px"; tip.style.top = top + "px";
+}
+function hideTip(){ tip.classList.remove("on"); }
+function row(color, label, val){ return '<tr><td><span class="sw" style="background:'+color+'"></span>'+label+'</td><td>'+val+'</td></tr>'; }
+
+var N = NATIONAL, Y = N.map(function(d){ return d.year; });
+var byYear = {}; N.forEach(function(d){ byYear[d.year] = d; });
+
+/* ======================================================
+   Figure 1: Sankey (hand-built)
+   ====================================================== */
+function drawSankey(){
+  var host = document.getElementById("sankey"); host.innerHTML = "";
+  var W = Math.max(640, host.clientWidth), H = 470, top = 26;
+  var d = byYear[2024], G = d.generated;
+  var svg = el("svg", {width:W, height:H + top + 46, viewBox:"0 0 "+W+" "+(H+top+46)}, host);
+  var mids = [
+    {k:"recy", name:"Recyclables", v:d.recyclables, c:COL.recy},
+    {k:"inc", name:"Incineration", v:d.incineration, c:COL.inc},
+    {k:"npH", name:"Not properly handled", v:d.not_properly_handled, c:COL.npH},
+    {k:"disp", name:"Other disposal", v:d.other_disposal, c:COL.disp},
+    {k:"land", name:"Landfill", v:d.landfill, c:COL.land},
+    {k:"food", name:"Food waste recovered", v:d.food_recovered, c:COL.food}
+  ];
+  var gaps = [16, 16, 30, 30, 34];
+  var totalGap = gaps.reduce(function(a,b){return a+b;},0);
+  var k = (H - totalGap) / G;
+  var minH = 2;
+  var x0 = 0, bw = 12, x1 = Math.round(W*0.40), x2 = Math.round(W*0.78);
+  // left node
+  el("rect", {x:x0, y:top, width:bw, height:G*k, fill:"#2b3236"}, svg);
+  txt(svg, x0, top-10, "Generated  " + fmt(G) + " t", {class:"anno-strong"});
+  var y = top, srcY = top;
+  var linkG = el("g", null, svg), nodeG = el("g", null, svg);
+  mids.forEach(function(m, i){
+    var h = Math.max(minH, m.v*k);
+    m.y = y; m.h = h;
+    var sh = m.v*k; // source thickness at true scale
+    var sy = srcY; srcY += sh;
+    var mx = (x0+bw + x1)/2;
+    var path = "M"+(x0+bw)+","+sy+" C"+mx+","+sy+" "+mx+","+m.y+" "+x1+","+m.y+
+               " L"+x1+","+(m.y+h)+" C"+mx+","+(m.y+h)+" "+mx+","+(sy+sh)+" "+(x0+bw)+","+(sy+sh)+" Z";
+    var p = el("path", {d:path, fill:m.c, "fill-opacity":0.28}, linkG);
+    var r = el("rect", {x:x1, y:m.y, width:bw, height:h, fill:m.c}, nodeG);
+    var pct = (m.v/G*100).toFixed(2) + "%";
+    var lx = x1 + bw + 8, ly = m.y + Math.min(h/2, 18);
+    if (m.k === "food") { lx = x1 + bw + 8; ly = m.y + h + 14; }
+    var t1 = txt(nodeG, lx, ly, m.name, {class:"dlabel halo", fill:COL.ink, "dominant-baseline":"middle"});
+    var t2 = txt(nodeG, lx, ly + 16, fmt(m.v) + " t · " + pct, {class:"dval halo", "dominant-baseline":"middle"});
+    var tipHtml = '<h4>'+m.name+'</h4><table>'+row(m.c, "Tonnes", fmt(m.v))+row(m.c, "Share of generated", pct)+'</table>' +
+      (m.k==="food" ? '<div class="muted">Recovery rate = food recovered ÷ all general waste.</div>' : '');
+    [p, r].forEach(function(n){
+      n.style.cursor = "default";
+      n.addEventListener("mouseenter", function(e){ p.setAttribute("fill-opacity", 0.55); showTip(tipHtml, e); });
+      n.addEventListener("mousemove", moveTip);
+      n.addEventListener("mouseleave", function(){ p.setAttribute("fill-opacity", 0.28); hideTip(); });
+    });
+    y += h + (gaps[i] || 0);
+  });
+  // food children
+  var food = mids[mids.length-1];
+  var kids = [
+    {name:"Compost", v:d.compost, c:COL.compost},
+    {name:"Pig feed", v:d.pig_feed, c:COL.pig},
+    {name:"Other uses", v:d.other_food_use, c:COL.other}
+  ];
+  var ky = food.y - 72, fy = food.y;
+  kids.forEach(function(kd){
+    var h = Math.max(minH, kd.v*k), sh = kd.v*k, sy = fy; fy += sh;
+    var mx = (x1+bw + x2)/2;
+    var path = "M"+(x1+bw)+","+sy+" C"+mx+","+sy+" "+mx+","+ky+" "+x2+","+ky+
+               " L"+x2+","+(ky+h)+" C"+mx+","+(ky+h)+" "+mx+","+(sy+sh)+" "+(x1+bw)+","+(sy+sh)+" Z";
+    var p = el("path", {d:path, fill:kd.c, "fill-opacity":0.35}, linkG);
+    var r = el("rect", {x:x2, y:ky, width:bw, height:h, fill:kd.c}, nodeG);
+    var pctG = (kd.v/G*100).toFixed(2)+"%", pctF = (kd.v/d.food_recovered*100).toFixed(1)+"%";
+    txt(nodeG, x2+bw+8, ky+h/2-7, kd.name, {class:"dlabel halo", fill:COL.ink, "dominant-baseline":"middle"});
+    txt(nodeG, x2+bw+8, ky+h/2+9, fmt(kd.v)+" t", {class:"dval halo", "dominant-baseline":"middle"});
+    var tipHtml = '<h4>'+kd.name+'</h4><table>'+row(kd.c,"Tonnes",fmt(kd.v))+row(kd.c,"Share of food recovered",pctF)+row(kd.c,"Share of generated",pctG)+'</table>';
+    [p, r].forEach(function(n){
+      n.addEventListener("mouseenter", function(e){ p.setAttribute("fill-opacity", 0.65); showTip(tipHtml, e); });
+      n.addEventListener("mousemove", moveTip);
+      n.addEventListener("mouseleave", function(){ p.setAttribute("fill-opacity", 0.35); hideTip(); });
+    });
+    ky += h + 38;
+  });
+}
+
+/* ======================================================
+   Shared line-chart frame with hover crosshair
+   ====================================================== */
+function lineFrame(host, opts){
+  host.innerHTML = "";
+  var W = Math.max(300, host.clientWidth), H = opts.height || 340;
+  var m = Object.assign({t:20, r:110, b:30, l:52}, opts.margin||{});
+  if (W < 480) m.r = Math.min(m.r, opts.narrowR || 86);
+  var svg = el("svg", {width:W, height:H, viewBox:"0 0 "+W+" "+H}, host);
+  var x = scale(Y[0], Y[Y.length-1], m.l, W - m.r);
+  var yv = scale(opts.yMin||0, opts.yMax, H - m.b, m.t);
+  var g = el("g", {class:"grid"}, svg), ax = el("g", {class:"axis"}, svg);
+  opts.yTicks.forEach(function(v){
+    el("line", {x1:m.l, x2:W-m.r, y1:yv(v), y2:yv(v), class: v===0?"zero":null}, g);
+    txt(ax, m.l-8, yv(v), opts.yFmt(v), {"text-anchor":"end","dominant-baseline":"middle"});
+  });
+  var step = W < 480 ? 3 : 1;
+  Y.forEach(function(yr, i){
+    if (i % step === 0 || i === Y.length-1) txt(ax, x(yr), H - m.b + 18, String(yr), {"text-anchor":"middle"});
+  });
+  return {svg:svg, x:x, y:yv, W:W, H:H, m:m};
+}
+function addHover(F, html, markers){
+  var guide = el("line", {y1:F.m.t, y2:F.H-F.m.b, stroke:"#9aa09d", "stroke-dasharray":"2 3", opacity:0}, F.svg);
+  var dots = markers.map(function(mk){ return el("circle", {r:4, fill:"#fff", stroke:mk.c, "stroke-width":2, opacity:0}, F.svg); });
+  var ov = el("rect", {x:F.m.l-10, y:F.m.t, width:F.W-F.m.l-F.m.r+20, height:F.H-F.m.t-F.m.b, fill:"transparent"}, F.svg);
+  function at(evt){
+    var pt = F.svg.getBoundingClientRect(), mx = evt.clientX - pt.left;
+    var best = Y[0], bd = 1e9;
+    Y.forEach(function(yr){ var dd = Math.abs(F.x(yr) - mx); if (dd < bd){ bd = dd; best = yr; } });
+    var xx = F.x(best);
+    guide.setAttribute("x1", xx); guide.setAttribute("x2", xx); guide.setAttribute("opacity", 1);
+    markers.forEach(function(mk, i){ var v = mk.v(best); if (v == null) return; dots[i].setAttribute("cx", xx); dots[i].setAttribute("cy", F.y(v)); dots[i].setAttribute("opacity", 1); });
+    showTip(html(best), evt);
+  }
+  ov.addEventListener("mousemove", at);
+  ov.addEventListener("mouseenter", at);
+  ov.addEventListener("mouseleave", function(){ guide.setAttribute("opacity",0); dots.forEach(function(d){ d.setAttribute("opacity",0); }); hideTip(); });
+  ov.addEventListener("touchstart", function(e){ if (e.touches[0]) at(e.touches[0]); }, {passive:true});
+}
+function pathOf(F, acc){
+  return Y.map(function(yr, i){ return (i?"L":"M") + F.x(yr).toFixed(1) + "," + F.y(acc(byYear[yr])).toFixed(1); }).join(" ");
+}
+function shade2018(F){
+  var x0 = F.x(2017), x1 = F.x(2018);
+  el("rect", {x:x0, y:F.m.t, width:x1-x0, height:F.H-F.m.t-F.m.b, fill:"#f3ead9", opacity:0.75}, F.svg);
+}
+
+/* ======================================================
+   Figure 2: destinations
+   ====================================================== */
+function drawDest(){
+  var host = document.getElementById("dest");
+  var narrow = host.clientWidth < 520;
+  var F = lineFrame(host, {height: narrow ? 320 : 380, yMax:650000, yTicks:[0,100000,200000,300000,400000,500000,600000], yFmt:function(v){ return v===0?"0":(v/1000)+"k t"; }, margin:{l:56, r:118}});
+  var s = F.svg;
+  // ASF line
+  var xa = F.x(2019);
+  el("line", {x1:xa, x2:xa, y1:F.m.t-4, y2:F.H-F.m.b, stroke:COL.pig, "stroke-width":1, "stroke-dasharray":"3 3"}, s);
+  var annoX = xa + 8;
+  txt(s, annoX, F.m.t + 6, "Mar 31, 2019:", {class:"anno-strong halo"});
+  txt(s, annoX, F.m.t + 21, narrow ? "ASF feeding deadline" : "ASF deadline for non-compliant", {class:"anno halo"});
+  if (!narrow) txt(s, annoX, F.m.t + 36, "food-waste-feeding pig farms", {class:"anno halo"});
+
+  var series = [
+    {k:"food_recovered", name:"Total recovered", c:"#6f7773", dash:"5 4", w:1.6},
+    {k:"pig_feed", name:"Pig feed", c:COL.pig, w:2.6},
+    {k:"compost", name:"Compost", c:COL.compost, w:2.6},
+    {k:"other_food_use", name:"Other uses", c:COL.other, w:2.6}
+  ];
+  series.forEach(function(sr){
+    el("path", {d:pathOf(F, function(d){ return d[sr.k]; }), fill:"none", stroke:sr.c, "stroke-width":sr.w, "stroke-dasharray":sr.dash||null, "stroke-linejoin":"round", "stroke-linecap":"round"}, s);
+  });
+  // start/end dots + direct labels
+  var endLabelY = {food_recovered:null, pig_feed:null, compost:null, other_food_use:null};
+  var last = byYear[2024], first = byYear[2015];
+  var ends = series.map(function(sr){ return {sr:sr, y:F.y(last[sr.k])}; }).sort(function(a,b){ return a.y-b.y; });
+  for (var i=1;i<ends.length;i++){ if (ends[i].y - ends[i-1].y < 30) ends[i].y = ends[i-1].y + 30; }
+  ends.forEach(function(e){
+    var sr = e.sr;
+    el("circle", {cx:F.x(2024), cy:F.y(last[sr.k]), r:3.2, fill:sr.c}, s);
+    txt(s, F.x(2024)+9, e.y-6, (narrow && sr.k==="food_recovered") ? "Total" : sr.name, {class:"dlabel halo", fill:sr.c, "dominant-baseline":"middle"});
+    txt(s, F.x(2024)+9, e.y+9, fmt(last[sr.k])+" t", {class:"dval halo", "dominant-baseline":"middle"});
+  });
+  // 2015 pig feed callout
+  el("circle", {cx:F.x(2015), cy:F.y(first.pig_feed), r:3.2, fill:COL.pig}, s);
+  txt(s, F.x(2015)+8, F.y(first.pig_feed)-10, "408,524 t", {class:"dval halo", fill:COL.pig, "font-weight":600});
+  // 2019 crossing
+  var p19 = byYear[2019];
+  el("circle", {cx:xa, cy:F.y(p19.pig_feed), r:3.2, fill:COL.pig}, s);
+  el("circle", {cx:xa, cy:F.y(p19.compost), r:3.2, fill:COL.compost}, s);
+  if (!narrow) {
+    txt(s, xa-8, F.y(p19.pig_feed)+38, "−41.78% since 2015", {class:"anno-strong halo", "text-anchor":"end", fill:COL.pig});
+    txt(s, xa-8, F.y(p19.pig_feed)+53, "compost overtakes pig feed", {class:"anno halo", "text-anchor":"end"});
+  }
+  addHover(F, function(yr){
+    var d = byYear[yr];
+    return '<h4>'+yr+'</h4><table>'+row(COL.pig,"Pig feed",fmt(d.pig_feed)+" t")+row(COL.compost,"Compost",fmt(d.compost)+" t")+row(COL.other,"Other uses",fmt(d.other_food_use)+" t")+'<tr><td colspan="2" style="border-top:1px solid #eee;padding-top:3px"></td></tr>'+row("#6f7773","Total recovered",fmt(d.food_recovered)+" t")+'</table>'+(yr===2019?'<div class="muted">ASF deadline for non-compliant farms: March 31, 2019. Context, not proven cause.</div>':'');
+  }, series.map(function(sr){ return {c:sr.c, v:function(yr){ return byYear[yr][sr.k]; }}; }));
+}
+
+/* ======================================================
+   Figure 3a: recovery rate; 3b: index
+   ====================================================== */
+function drawRate(){
+  var host = document.getElementById("rateChart");
+  var F = lineFrame(host, {height:300, yMax:10, yTicks:[0,2,4,6,8,10], yFmt:function(v){ return v+"%"; }, margin:{l:40, r:22, t:22}, narrowR:22});
+  shade2018(F);
+  txt(F.svg, (F.x(2017)+F.x(2018))/2, F.H - F.m.b - 8, "2018?", {class:"anno halo", "text-anchor":"middle", fill:"#8a4a12"});
+  el("path", {d:pathOf(F, function(d){ return d.recovery_rate_pct; }), fill:"none", stroke:COL.food, "stroke-width":2.6, "stroke-linejoin":"round"}, F.svg);
+  N.forEach(function(d){ el("circle", {cx:F.x(d.year), cy:F.y(d.recovery_rate_pct), r:2.4, fill:COL.food}, F.svg); });
+  var lab = function(yr, dy, anchor, bold){ var d = byYear[yr]; txt(F.svg, F.x(yr) + (anchor==="end"?-2:anchor==="start"?4:0), F.y(d.recovery_rate_pct)+dy, d.recovery_rate_pct.toFixed(2)+"%", {class:(bold?"anno-strong":"anno")+" halo", "text-anchor":anchor||"middle"}); };
+  lab(2015, -12, "start", true);
+  lab(2019, 18, "middle");
+  lab(2023, 20, "middle");
+  lab(2024, -12, "end", true);
+  addHover(F, function(yr){
+    var d = byYear[yr];
+    return '<h4>'+yr+'</h4><table>'+row(COL.food,"Recovery rate",d.recovery_rate_pct.toFixed(2)+"%")+row("#2b3236","Generated",fmt(d.generated)+" t")+row(COL.food,"Food recovered",fmt(d.food_recovered)+" t")+'</table>'+(yr===2018?'<div class="muted">Generated +25.25% vs 2017; possible definitional change (unverified).</div>':'');
+  }, [{c:COL.food, v:function(yr){ return byYear[yr].recovery_rate_pct; }}]);
+}
+function drawIndex(){
+  var host = document.getElementById("indexChart");
+  var base = byYear[2015];
+  var gi = function(d){ return d.generated / base.generated * 100; };
+  var fi = function(d){ return d.food_recovered / base.food_recovered * 100; };
+  var F = lineFrame(host, {height:300, yMin:60, yMax:180, yTicks:[60,80,100,120,140,160,180], yFmt:function(v){ return String(v); }, margin:{l:40, r:96, t:22}, narrowR:92});
+  shade2018(F);
+  el("line", {x1:F.m.l, x2:F.W-F.m.r, y1:F.y(100), y2:F.y(100), stroke:"#9aa09d", "stroke-width":1}, F.svg);
+  el("path", {d:pathOf(F, gi), fill:"none", stroke:"#2b3236", "stroke-width":2.4, "stroke-linejoin":"round"}, F.svg);
+  el("path", {d:pathOf(F, fi), fill:"none", stroke:COL.food, "stroke-width":2.4, "stroke-linejoin":"round"}, F.svg);
+  var l = byYear[2024], xe = F.x(2024)+8;
+  txt(F.svg, xe, F.y(gi(l))-6, "Generated", {class:"dlabel halo", fill:"#2b3236", "dominant-baseline":"middle"});
+  txt(F.svg, xe, F.y(gi(l))+10, "+69.6%", {class:"dval halo", "dominant-baseline":"middle"});
+  txt(F.svg, xe, F.y(fi(l))-6, "Food", {class:"dlabel halo", fill:COL.food, "dominant-baseline":"middle"});
+  txt(F.svg, xe, F.y(fi(l))+10, "recovered", {class:"dlabel halo", fill:COL.food, "dominant-baseline":"middle"});
+  txt(F.svg, xe, F.y(fi(l))+26, "−17.12%", {class:"dval halo", "dominant-baseline":"middle"});
+  addHover(F, function(yr){
+    var d = byYear[yr];
+    return '<h4>'+yr+' (2015 = 100)</h4><table>'+row("#2b3236","Generated",gi(d).toFixed(1))+row(COL.food,"Food recovered",fi(d).toFixed(1))+'</table>';
+  }, [{c:"#2b3236", v:function(yr){ return gi(byYear[yr]); }}, {c:COL.food, v:function(yr){ return fi(byYear[yr]); }}]);
+}
+
+/* ======================================================
+   Figure 4: county ranking with year selector
+   ====================================================== */
+var ISLANDS = {"Penghu":1, "Kinmen":1, "Lienchiang (Matsu)":1};
+var state = {year:2024, islands:true};
+var seg = document.getElementById("yearSeg");
+COUNTY_YEARS.forEach(function(yr){
+  var b = document.createElement("button"); b.type = "button"; b.textContent = yr;
+  b.setAttribute("aria-pressed", yr===state.year ? "true" : "false");
+  b.addEventListener("click", function(){ state.year = yr; Array.prototype.forEach.call(seg.children, function(c){ c.setAttribute("aria-pressed", c.textContent==String(yr) ? "true":"false"); }); updateCounty(); });
+  seg.appendChild(b);
+});
+document.getElementById("islandsToggle").addEventListener("change", function(e){ state.islands = e.target.checked; drawCounty(); });
+
+var countyF = null;
+function drawCounty(){
+  var host = document.getElementById("county"); host.innerHTML = "";
+  var W = Math.max(300, host.clientWidth), narrow = W < 520;
+  var list = COUNTIES.filter(function(c){ return state.islands || !ISLANDS[c.en]; });
+  var rowH = 24, top = 26, labW = narrow ? 112 : 150, valW = 52;
+  var H = top + list.length*rowH + 8;
+  var svg = el("svg", {width:W, height:H, viewBox:"0 0 "+W+" "+H}, host);
+  var axisG = el("g", {class:"axis"}, svg), gridG = el("g", {class:"grid"}, svg);
+  var annoG = el("g", null, svg);
+  var rowsG = el("g", null, svg);
+  var rows = {};
+  list.forEach(function(c){
+    var g = el("g", {class:"row"}, rowsG);
+    el("rect", {class:"bar-bg", x:0, y:0, width:W, height:rowH, fill:"transparent"}, g);
+    var isl = !!ISLANDS[c.en];
+    txt(g, labW-10, rowH/2, c.en, {"text-anchor":"end", "dominant-baseline":"middle", "font-size":13, fill: isl ? COL.ink3 : COL.ink});
+    var bar = el("rect", {class:"bar", x:labW, y:5, height:rowH-10, width:0, rx:1.5, fill: isl ? "#9fc4b2" : COL.food}, g);
+    var val = txt(g, labW, rowH/2, "", {"dominant-baseline":"middle", "font-size":12.5, "font-weight":600, fill:COL.ink, "font-variant-numeric":"tabular-nums"});
+    g.addEventListener("mouseenter", function(e){ showTip(countyTip(c), e); });
+    g.addEventListener("mousemove", moveTip);
+    g.addEventListener("mouseleave", hideTip);
+    rows[c.en] = {g:g, bar:bar, val:val, c:c};
+  });
+  countyF = {svg:svg, W:W, H:H, top:top, rowH:rowH, labW:labW, valW:valW, rows:rows, list:list, axisG:axisG, gridG:gridG, annoG:annoG};
+  updateCounty(true);
+}
+function countyTip(c){
+  var i = COUNTY_YEARS.indexOf(state.year);
+  return '<h4>'+c.en+' <span style="font-weight:400;color:#6b7378">'+c.zh+'</span></h4><table>'+
+    row(ISLANDS[c.en]?"#9fc4b2":COL.food, state.year+" per person", c.kg[i].toFixed(1)+" kg")+
+    row("#ccc","Food recovered", fmt(c.t[i])+" t")+
+    row("#ccc","Registered pop.", fmt(c.pop[i]))+'</table>'+
+    (ISLANDS[c.en]?'<div class="muted">Outlying island: visitors inflate per-person figures.</div>':'');
+}
+function updateCounty(initial){
+  var F = countyF; if (!F) return;
+  var i = COUNTY_YEARS.indexOf(state.year);
+  var sorted = F.list.slice().sort(function(a,b){ return b.kg[i]-a.kg[i]; });
+  var max = sorted[0].kg[i];
+  var ticks = niceTicks(max, F.W < 520 ? 3 : 5);
+  var xmax = ticks[ticks.length-1];
+  var x = scale(0, xmax, F.labW, F.W - F.valW + 10);
+  F.axisG.innerHTML = ""; F.gridG.innerHTML = ""; F.annoG.innerHTML = "";
+  ticks.forEach(function(v){
+    el("line", {x1:x(v), x2:x(v), y1:F.top-6, y2:F.H-4, class: v===0 ? "zero" : null}, F.gridG);
+    txt(F.axisG, x(v), F.top-12, v + (v===ticks[ticks.length-1] ? " kg" : ""), {"text-anchor":"middle"});
+  });
+  var bars = sorted.map(function(c){ return c.kg[i]; });
+  sorted.forEach(function(c, rank){
+    var r = F.rows[c.en], v = c.kg[i];
+    r.g.setAttribute("transform", "translate(0," + (F.top + rank*F.rowH) + ")");
+    r.g.style.transform = "translate(0px," + (F.top + rank*F.rowH) + "px)";
+    r.bar.setAttribute("width", Math.max(1, x(v) - F.labW));
+    r.bar.style.width = Math.max(1, x(v) - F.labW) + "px";
+    r.val.setAttribute("x", x(v) + 6);
+    r.val.textContent = v.toFixed(1);
+  });
+  if (initial || reduceMotion) { /* no-op: CSS handles transitions */ }
+  // ratio annotation
+  var hi = sorted[0], lo = sorted[sorted.length-1];
+  var ratio = (hi.kg[i] / lo.kg[i]);
+  var note = document.getElementById("countyRatio");
+  if (note) note.textContent = state.year + ": highest " + hi.en + " " + hi.kg[i].toFixed(1) + " kg, lowest " + lo.en + " " + lo.kg[i].toFixed(1) + " kg (about " + ratio.toFixed(1) + "×).";
+}
+
+/* ---------- Copy buttons ---------- */
+Array.prototype.forEach.call(document.querySelectorAll(".copy"), function(b){
+  b.addEventListener("click", function(){
+    var box = document.getElementById(b.dataset.target);
+    var t = box.firstChild.textContent;
+    var done = function(){ b.textContent = "Copied"; setTimeout(function(){ b.textContent = "Copy"; }, 1400); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, function(){ b.textContent = "Select & copy"; });
+    else { b.textContent = "Select & copy"; }
+  });
+});
+
+function drawAll(){ drawSankey(); drawDest(); drawRate(); drawIndex(); drawCounty(); }
+drawAll();
+var lastW = window.innerWidth, rt;
+window.addEventListener("resize", function(){ if (Math.abs(window.innerWidth - lastW) < 4) return; lastW = window.innerWidth; clearTimeout(rt); rt = setTimeout(drawAll, 120); });
+window.addEventListener("scroll", hideTip, {passive:true});
+})();
+</script>
+</body>
+</html>
