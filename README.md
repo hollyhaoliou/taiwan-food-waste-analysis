@@ -1,6 +1,10 @@
 # Where Does Taiwan's Food Waste Go?
 A data review of the system behind Baked Tipsy, 2015–2024
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hollyhaoliou/taiwan-food-waste-analysis/blob/main/Food_Waste_Analysis.ipynb)
+
+Written report: [Where Does Taiwan's Food Waste Go?](https://hollyhaoliou.github.io/taiwan-food-waste-analysis/)
+
 ## Why this project
 From 2021 to 2025 I ran Baked Tipsy, a small venture that brewed beer from surplus bread. This project asks what the national data says about the system that venture worked inside: how much of Taiwan's household food waste is actually recovered, where it goes, and how that has changed.
 
@@ -33,15 +37,15 @@ Python (pandas, plotly) in Google Colab. I converted ROC years to AD (+1911), pa
 - Total waste generated jumps between 2017 and 2018. This may reflect a definitional change that I have not verified.
 - The 2019 pig-feed rules are context only. This analysis does not show they caused the decline.
 - Outlying islands such as Lienchiang have high per-person numbers partly because of visitors.
-- Baked Tipsy batch figures in the report are my own estimates, not dataset values.
 
 ## Files
 - `Food_Waste_Analysis.ipynb`: the full analysis
 - `report_draft.docx`: the written report
 - `newplot.png` (Sankey 2024), `newplot-2.png` (destinations trend), `newplot-3.png` (recovery rate), `newplot-4.png` (county per capita): figures
 - `stat_p_150.csv`, `stat_p_45.csv`, `stat_p_127.csv`, `stat_p_36.csv`, `population_by_county.csv`: data
+- `docs/index.html`: the written report, also at https://hollyhaoliou.github.io/taiwan-food-waste-analysis/
 
 ## How to run
-Open the notebook in Google Colab, put the CSVs in a Drive folder, update the data path in the first cell, then choose Runtime → Run all.
+Open the notebook in Google Colab, then choose Runtime → Run all. The CSVs are loaded from this repository.
 
 Author: Holly Liou
